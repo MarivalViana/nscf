@@ -90,6 +90,7 @@ DELETE /api/v1/{recurso}/{id}   deletar
 
 ### Regras
 
+- Nomes de tabelas sempre no **plural** (`usuarios`, `receitas`, `receita_valores`)
 - Controllers são finos: apenas recebem request e delegam ao Service
 - Services contêm toda a lógica de negócio
 - DTOs sempre para request e response — nunca expor Entity diretamente
