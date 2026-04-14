@@ -1,4 +1,5 @@
 import axios from 'axios'
+import type { LoginRequest, LoginResponse } from '@/types'
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL || '/api/v1',
@@ -27,5 +28,11 @@ api.interceptors.response.use(
     return Promise.reject(error)
   }
 )
+
+// Auth
+export const authService = {
+  login: (data: LoginRequest) =>
+    api.post<LoginResponse>('/auth/login', data).then((r) => r.data)
+}
 
 export default api

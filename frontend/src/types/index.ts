@@ -1,5 +1,4 @@
 // Tipos globais do SCF
-// Adicione as interfaces aqui conforme as funcionalidades forem sendo criadas
 
 export interface ApiResponse<T> {
   data: T
@@ -12,4 +11,21 @@ export interface PageResponse<T> {
   totalPages: number
   size: number
   number: number
+}
+
+// Auth
+export interface LoginRequest {
+  email: string
+  senha: string
+}
+
+export interface LoginResponse {
+  token: string
+  nome: string
+  email: string
+}
+
+export interface Usuario {
+  nome: string
+  email: string
 }
