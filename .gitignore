@@ -21,7 +21,7 @@ frontend/.env.local
 frontend/.env.*.local
 
 # ===========================
-# IDEs
+# IDEs - Eclipse / STS
 # ===========================
 .idea/
 *.iws
@@ -29,6 +29,15 @@ frontend/.env.*.local
 *.ipr
 .vscode/
 !.vscode/extensions.json
+**/.classpath
+**/.project
+**/.factorypath
+**/.settings/
+
+# ===========================
+# Claude Code
+# ===========================
+.claude/
 
 # ===========================
 # OS
