@@ -1,0 +1,43 @@
+# ===========================
+# Backend - Java / Maven
+# ===========================
+backend/target/
+!**/src/main/**/target/
+!**/src/test/**/target/
+*.class
+*.log
+*.jar
+*.war
+*.ear
+.mvn/wrapper/maven-wrapper.jar
+
+# ===========================
+# Frontend - Node / Vite
+# ===========================
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+frontend/.env.local
+frontend/.env.*.local
+
+# ===========================
+# IDEs
+# ===========================
+.idea/
+*.iws
+*.iml
+*.ipr
+.vscode/
+!.vscode/extensions.json
+
+# ===========================
+# OS
+# ===========================
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ===========================
+# Secrets
+# ===========================
+application-secrets.yml

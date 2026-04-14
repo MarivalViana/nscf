@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    url: jdbc:sqlserver://localhost:1433;databaseName=scf;encrypt=true;trustServerCertificate=true
+    username: sa
+    password: car1234
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+  jpa:
+    database-platform: org.hibernate.dialect.SQLServerDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+server:
+  port: 8080
+
+logging:
+  level:
+    br.scf: DEBUG
+    org.springframework.security: DEBUG
