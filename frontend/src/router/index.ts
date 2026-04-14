@@ -1,13 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
+import AppLayout from '@/components/layout/AppLayout.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    {
-      path: '/',
-      redirect: '/dashboard'
-    },
     {
       path: '/login',
       name: 'login',
@@ -15,22 +12,27 @@ const router = createRouter({
       meta: { requiresGuest: true }
     },
     {
-      path: '/dashboard',
-      name: 'dashboard',
-      component: () => import('@/views/DashboardView.vue'),
-      meta: { requiresAuth: true }
-    },
-    {
-      path: '/receitas',
-      name: 'receitas',
-      component: () => import('@/views/receitas/ReceitasView.vue'),
-      meta: { requiresAuth: true }
-    },
-    {
-      path: '/receitas/:id',
-      name: 'receita-detalhe',
-      component: () => import('@/views/receitas/ReceitaDetalheView.vue'),
-      meta: { requiresAuth: true }
+      path: '/',
+      component: AppLayout,
+      meta: { requiresAuth: true },
+      redirect: '/dashboard',
+      children: [
+        {
+          path: 'dashboard',
+          name: 'dashboard',
+          component: () => import('@/views/DashboardView.vue')
+        },
+        {
+          path: 'receitas',
+          name: 'receitas',
+          component: () => import('@/views/receitas/ReceitasView.vue')
+        },
+        {
+          path: 'receitas/:id',
+          name: 'receita-detalhe',
+          component: () => import('@/views/receitas/ReceitaDetalheView.vue')
+        }
+      ]
     },
     {
       path: '/:pathMatch(.*)*',
