@@ -24,18 +24,3 @@ logging:
   level:
     br.scf: DEBUG
     org.springframework.security: DEBUG
-    properties:
-      hibernate:
-        format_sql: true
-  flyway:
-    enabled: true
-    locations: classpath:db/migration
-    baseline-on-migrate: true
-
-server:
-  port: 8080
-
-logging:
-  level:
-    br.scf: DEBUG
-    org.springframework.security: DEBUG
