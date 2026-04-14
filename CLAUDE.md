@@ -111,6 +111,24 @@ DELETE /api/v1/{recurso}/{id}   deletar
   - Stores: `useXxxStore` (`useAuthStore`)
   - Views: sufixo `View` (`DashboardView.vue`)
 
+## Migrations de Banco (Flyway)
+
+Arquivos em `backend/src/main/resources/db/migration/`.
+
+Nomenclatura obrigatória: `V{numero}__{descricao}.sql`
+
+```
+V1__baseline.sql          ponto de partida
+V2__cria_tabela_usuario.sql
+V3__cria_tabela_conta.sql
+V4__add_coluna_saldo.sql
+```
+
+- Nunca edite um arquivo de migration já aplicado ao banco
+- Sempre crie um novo arquivo para qualquer alteração de schema
+- O Flyway aplica automaticamente ao subir a aplicação
+- Tabela `flyway_schema_history` no banco rastreia o histórico
+
 ## Workflow para Nova Funcionalidade
 
 1. Criar entity em `backend/.../entity/`

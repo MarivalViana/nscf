@@ -1,0 +1,3 @@
+-- SCF - Baseline inicial do banco de dados
+-- Este arquivo marca o ponto de partida do controle de versão do schema.
+-- As próximas tabelas serão criadas em arquivos V2__, V3__, etc.
