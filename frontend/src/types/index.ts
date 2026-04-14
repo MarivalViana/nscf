@@ -29,3 +29,37 @@ export interface Usuario {
   nome: string
   email: string
 }
+
+// Receitas
+export type TipoReceita = 'RECORRENTE' | 'PONTUAL'
+
+export interface ReceitaValorResponse {
+  id: number
+  valor: number
+  mesInicio: number
+  anoInicio: number
+  mesFim: number | null
+  anoFim: number | null
+  vigente: boolean
+}
+
+export interface ReceitaResponse {
+  id: number
+  descricao: string
+  tipo: TipoReceita
+  ativo: boolean
+  valores: ReceitaValorResponse[]
+}
+
+export interface ReceitaRequest {
+  descricao: string
+  tipo: TipoReceita
+}
+
+export interface ReceitaValorRequest {
+  valor: number
+  mesInicio: number
+  anoInicio: number
+  mesFim?: number | null
+  anoFim?: number | null
+}

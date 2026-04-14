@@ -21,6 +21,18 @@ const router = createRouter({
       meta: { requiresAuth: true }
     },
     {
+      path: '/receitas',
+      name: 'receitas',
+      component: () => import('@/views/receitas/ReceitasView.vue'),
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/receitas/:id',
+      name: 'receita-detalhe',
+      component: () => import('@/views/receitas/ReceitaDetalheView.vue'),
+      meta: { requiresAuth: true }
+    },
+    {
       path: '/:pathMatch(.*)*',
       name: 'not-found',
       component: () => import('@/views/NotFoundView.vue')
