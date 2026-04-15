@@ -21,44 +21,78 @@
         <small v-if="erros.valor" class="erro">{{ erros.valor }}</small>
       </div>
 
-      <div class="grid-2">
-        <div class="field">
-          <label>Mês início</label>
-          <Select
-            v-model="form.mesInicio"
-            :options="meses"
-            option-label="label"
-            option-value="value"
-            placeholder="Mês"
-            fluid
-          />
+      <!-- RECORRENTE: início obrigatório, fim opcional -->
+      <template v-if="tipo === 'RECORRENTE'">
+        <div class="grid-2">
+          <div class="field">
+            <label>Mês início</label>
+            <Select
+              v-model="form.mesInicio"
+              :options="meses"
+              option-label="label"
+              option-value="value"
+              placeholder="Mês"
+              fluid
+            />
+          </div>
+          <div class="field">
+            <label>Ano início</label>
+            <InputNumber v-model="form.anoInicio" :use-grouping="false" :min="2000" fluid />
+          </div>
         </div>
-        <div class="field">
-          <label>Ano início</label>
-          <InputNumber v-model="form.anoInicio" :use-grouping="false" :min="2000" fluid />
-        </div>
-      </div>
 
-      <Divider />
-      <p class="hint">Deixe em branco se a receita ainda estiver vigente</p>
+        <Divider />
+        <p class="hint">
+          <i class="pi pi-info-circle" /> Data fim — preencha apenas quando a receita encerrar.
+        </p>
 
-      <div class="grid-2">
-        <div class="field">
-          <label>Mês fim</label>
-          <Select
-            v-model="form.mesFim"
-            :options="[{ label: '—', value: null }, ...meses]"
-            option-label="label"
-            option-value="value"
-            placeholder="Mês"
-            fluid
-          />
+        <div class="grid-2">
+          <div class="field">
+            <label>Mês fim <span class="opcional">(opcional)</span></label>
+            <Select
+              v-model="form.mesFim"
+              :options="[{ label: '— Em aberto', value: null }, ...meses]"
+              option-label="label"
+              option-value="value"
+              fluid
+            />
+          </div>
+          <div class="field">
+            <label>Ano fim <span class="opcional">(opcional)</span></label>
+            <InputNumber
+              v-model="form.anoFim"
+              :use-grouping="false"
+              :min="2000"
+              :placeholder="'—'"
+              fluid
+            />
+          </div>
         </div>
-        <div class="field">
-          <label>Ano fim</label>
-          <InputNumber v-model="form.anoFim" :use-grouping="false" :min="2000" fluid />
+      </template>
+
+      <!-- PONTUAL: apenas mês/ano de ocorrência -->
+      <template v-else>
+        <div class="grid-2">
+          <div class="field">
+            <label>Mês</label>
+            <Select
+              v-model="form.mesInicio"
+              :options="meses"
+              option-label="label"
+              option-value="value"
+              placeholder="Mês"
+              fluid
+            />
+          </div>
+          <div class="field">
+            <label>Ano</label>
+            <InputNumber v-model="form.anoInicio" :use-grouping="false" :min="2000" fluid />
+          </div>
         </div>
-      </div>
+        <small class="hint">
+          <i class="pi pi-info-circle" /> Receita pontual — ocorre somente neste mês.
+        </small>
+      </template>
     </form>
 
     <template #footer>
@@ -70,16 +104,16 @@
 
 <script setup lang="ts">
 import { ref, watch } from 'vue'
-import Dialog from 'primevue/dialog'
-import InputText from 'primevue/inputtext'
 import InputNumber from 'primevue/inputnumber'
 import Select from 'primevue/select'
 import Button from 'primevue/button'
+import Dialog from 'primevue/dialog'
 import Divider from 'primevue/divider'
-import type { ReceitaValorRequest, ReceitaValorResponse } from '@/types'
+import type { ReceitaValorRequest, ReceitaValorResponse, TipoReceita } from '@/types'
 
 const props = defineProps<{
   visible: boolean
+  tipo: TipoReceita
   valorEditando?: ReceitaValorResponse | null
 }>()
 
@@ -141,7 +175,15 @@ async function salvar() {
   if (!validar()) return
   salvando.value = true
   try {
-    emit('salvo', { ...form.value })
+    const dados: ReceitaValorRequest = { ...form.value }
+
+    // Pontual: data fim = data início (mesmo mês)
+    if (props.tipo === 'PONTUAL') {
+      dados.mesFim = dados.mesInicio
+      dados.anoFim = dados.anoInicio
+    }
+
+    emit('salvo', dados)
     emit('update:visible', false)
   } finally {
     salvando.value = false
@@ -155,5 +197,6 @@ async function salvar() {
 .field { display: flex; flex-direction: column; gap: 0.4rem; }
 .field label { font-weight: 500; font-size: 0.9rem; color: #374151; }
 .erro { color: #ef4444; font-size: 0.8rem; }
-.hint { font-size: 0.8rem; color: #6c757d; margin: -0.5rem 0; }
+.hint { font-size: 0.8rem; color: #6c757d; display: flex; align-items: center; gap: 0.3rem; margin: -0.25rem 0; }
+.opcional { font-weight: 400; color: #9ca3af; font-size: 0.8rem; }
 </style>

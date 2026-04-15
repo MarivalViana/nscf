@@ -81,7 +81,7 @@ import Tag from 'primevue/tag'
 import ConfirmDialog from 'primevue/confirmdialog'
 import ReceitaForm from '@/components/receitas/ReceitaForm.vue'
 import { useReceitaStore } from '@/stores/receita'
-import type { ReceitaResponse, ReceitaRequest } from '@/types'
+import type { ReceitaResponse, ReceitaRequest, ReceitaValorRequest } from '@/types'
 
 const receitaStore = useReceitaStore()
 const confirm = useConfirm()
@@ -110,14 +110,17 @@ function abrirFormEditar(receita: ReceitaResponse) {
   formVisible.value = true
 }
 
-async function onSalvo(data: ReceitaRequest) {
+async function onSalvo(data: ReceitaRequest, valor: ReceitaValorRequest | null) {
   try {
     if (receitaSelecionada.value) {
       await receitaStore.atualizar(receitaSelecionada.value.id, data)
       toast.add({ severity: 'success', summary: 'Atualizada', detail: 'Receita atualizada', life: 3000 })
     } else {
-      await receitaStore.criar(data)
-      toast.add({ severity: 'success', summary: 'Criada', detail: 'Receita criada', life: 3000 })
+      const novaReceita = await receitaStore.criar(data)
+      if (valor && novaReceita) {
+        await receitaStore.adicionarValor(novaReceita.id, valor)
+      }
+      toast.add({ severity: 'success', summary: 'Criada', detail: 'Receita criada com sucesso', life: 3000 })
     }
   } catch {
     toast.add({ severity: 'error', summary: 'Erro', detail: 'Não foi possível salvar', life: 3000 })

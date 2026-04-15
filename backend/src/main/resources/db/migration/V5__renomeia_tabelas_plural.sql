@@ -1,7 +1,9 @@
-EXEC sp_rename 'usuario',      'usuarios';
-EXEC sp_rename 'receita',      'receitas';
-EXEC sp_rename 'receita_valor', 'receita_valores';
+-- Renomeia tabelas para padrão plural (idempotente via IF EXISTS)
+IF EXISTS (SELECT 1 FROM sys.tables WHERE name = 'usuario' AND schema_id = SCHEMA_ID('dbo'))
+    EXEC sp_rename 'usuario', 'usuarios';
 
--- Renomeia também a FK para manter consistência
-EXEC sp_rename 'receita_valores.fk_receita_valor_receita',
-               'fk_receita_valores_receitas', 'OBJECT';
+IF EXISTS (SELECT 1 FROM sys.tables WHERE name = 'receita' AND schema_id = SCHEMA_ID('dbo'))
+    EXEC sp_rename 'receita', 'receitas';
+
+IF EXISTS (SELECT 1 FROM sys.tables WHERE name = 'receita_valor' AND schema_id = SCHEMA_ID('dbo'))
+    EXEC sp_rename 'receita_valor', 'receita_valores';

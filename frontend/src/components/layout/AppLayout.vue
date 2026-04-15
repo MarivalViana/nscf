@@ -63,7 +63,10 @@ const collapsed = ref(false)
 
 const menuItems = [
   { label: 'Dashboard', icon: 'pi pi-home', to: '/dashboard' },
-  { label: 'Receitas', icon: 'pi pi-arrow-circle-up', to: '/receitas' }
+  { label: 'Receitas', icon: 'pi pi-arrow-circle-up', to: '/receitas' },
+  { label: 'Despesas', icon: 'pi pi-arrow-circle-down', to: '/despesas' },
+  { label: 'Categorias', icon: 'pi pi-tags', to: '/categorias' },
+  { label: 'Contas e Cartões', icon: 'pi pi-credit-card', to: '/contas' }
 ]
 
 function handleLogout() {

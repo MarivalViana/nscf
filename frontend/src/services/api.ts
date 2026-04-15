@@ -2,7 +2,10 @@ import axios from 'axios'
 import type {
   LoginRequest, LoginResponse,
   ReceitaRequest, ReceitaResponse,
-  ReceitaValorRequest, ReceitaValorResponse
+  ReceitaValorRequest, ReceitaValorResponse,
+  DespesaRequest, DespesaResponse,
+  CategoriaRequest, CategoriaResponse,
+  ContaRequest, ContaResponse
 } from '@/types'
 
 const api = axios.create({
@@ -58,6 +61,54 @@ export const receitaService = {
 
   removerValor: (valorId: number) =>
     api.delete(`/receitas/valores/${valorId}`)
+}
+
+// Despesas
+export const despesaService = {
+  listar: () =>
+    api.get<DespesaResponse[]>('/despesas').then((r) => r.data),
+
+  buscarPorId: (id: number) =>
+    api.get<DespesaResponse>(`/despesas/${id}`).then((r) => r.data),
+
+  criar: (data: DespesaRequest) =>
+    api.post<DespesaResponse>('/despesas', data).then((r) => r.data),
+
+  atualizar: (id: number, data: DespesaRequest) =>
+    api.put<DespesaResponse>(`/despesas/${id}`, data).then((r) => r.data),
+
+  desativar: (id: number) =>
+    api.delete(`/despesas/${id}`)
+}
+
+// Categorias
+export const categoriaService = {
+  listar: () =>
+    api.get<CategoriaResponse[]>('/categorias').then((r) => r.data),
+
+  criar: (data: CategoriaRequest) =>
+    api.post<CategoriaResponse>('/categorias', data).then((r) => r.data),
+
+  atualizar: (id: number, data: CategoriaRequest) =>
+    api.put<CategoriaResponse>(`/categorias/${id}`, data).then((r) => r.data),
+
+  desativar: (id: number) =>
+    api.delete(`/categorias/${id}`)
+}
+
+// Contas
+export const contaService = {
+  listar: () =>
+    api.get<ContaResponse[]>('/contas').then((r) => r.data),
+
+  criar: (data: ContaRequest) =>
+    api.post<ContaResponse>('/contas', data).then((r) => r.data),
+
+  atualizar: (id: number, data: ContaRequest) =>
+    api.put<ContaResponse>(`/contas/${id}`, data).then((r) => r.data),
+
+  desativar: (id: number) =>
+    api.delete(`/contas/${id}`)
 }
 
 export default api

@@ -49,6 +49,7 @@
 
     <ReceitaValorForm
       v-model:visible="formVisible"
+      :tipo="receita?.tipo ?? 'RECORRENTE'"
       :valor-editando="valorSelecionado"
       @salvo="onSalvo"
     />

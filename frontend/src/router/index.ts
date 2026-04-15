@@ -31,6 +31,21 @@ const router = createRouter({
           path: 'receitas/:id',
           name: 'receita-detalhe',
           component: () => import('@/views/receitas/ReceitaDetalheView.vue')
+        },
+        {
+          path: 'despesas',
+          name: 'despesas',
+          component: () => import('@/views/despesas/DespesasView.vue')
+        },
+        {
+          path: 'categorias',
+          name: 'categorias',
+          component: () => import('@/views/categorias/CategoriasView.vue')
+        },
+        {
+          path: 'contas',
+          name: 'contas',
+          component: () => import('@/views/contas/ContasView.vue')
         }
       ]
     },
